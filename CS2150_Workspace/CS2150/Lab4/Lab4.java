@@ -42,23 +42,23 @@ public class Lab4 extends GraphicsLab
     private float houseRotationAngle= 35.0f;
     
     public static void main(String args[])
-    {   new Lab4().run(WINDOWED,"Lab 4 - Lighting",0.01f);
+    {   new Lab4().run(WINDOWED,"Lab 4 - Lighting",0.08f);
     }
     
     protected void initScene()
     {
         // global ambient light level
-        float globalAmbient[]   = {0.2f,  0.2f,  0.2f, 1f};
+        float globalAmbient[]   = {0.2f,  0.2f,  0.2f, 0.1f};
         // set the global ambient lighting
         GL11.glLightModel(GL11.GL_LIGHT_MODEL_AMBIENT, FloatBuffer.wrap(globalAmbient));
 
-        /*
+        
         // the first light for the scene is white...
         float diffuse0[]  = { 0.6f,  0.6f, 0.6f, 1.0f};
         // ...with a dim ambient contribution...
         float ambient0[]  = { 0.1f,  0.1f, 0.1f, 1.0f};
         // ...and is positioned above and behind the viewpoint
-        float position0[] = { 0.0f, 10.0f, 5.0f, 1.0f}; 
+        float position0[] = { 10.0f, 00.0f, 5.0f, 0.5f}; 
 
         // supply OpenGL with the properties for the first light
         GL11.glLight(GL11.GL_LIGHT0, GL11.GL_AMBIENT, FloatBuffer.wrap(ambient0));
@@ -67,7 +67,7 @@ public class Lab4 extends GraphicsLab
         GL11.glLight(GL11.GL_LIGHT0, GL11.GL_POSITION, FloatBuffer.wrap(position0));
         // enable the first light
         GL11.glEnable(GL11.GL_LIGHT0);
-        */
+        
 
 
         // enable lighting calculations
@@ -104,14 +104,14 @@ public class Lab4 extends GraphicsLab
         GL11.glRotatef(houseRotationAngle, 0.0f, 1.0f, 0.0f);
 
         // how shiny are the front faces of the house (specular exponent)
-        float houseFrontShininess  = 2.0f;
+        float houseFrontShininess  = 0.1f;
         // specular reflection of the front faces of the house
-        float houseFrontSpecular[] = {0.1f, 0.0f, 0.0f, 1.0f};
+        float houseFrontSpecular[] = {1.0f, 0.5f, 0.0f, 1.0f};
         // diffuse reflection of the front faces of the house
         float houseFrontDiffuse[]  = {0.6f, 0.2f, 0.2f, 1.0f};
         
         // set the material properties for the house using OpenGL
-        GL11.glMaterialf(GL11.GL_FRONT, GL11.GL_SHININESS, houseFrontShininess);
+        GL11.glMaterialf(GL11.GL_FRONT, GL11.GL_COLOR_WRITEMASK, houseFrontShininess);
         GL11.glMaterial(GL11.GL_FRONT, GL11.GL_SPECULAR, FloatBuffer.wrap(houseFrontSpecular));
         GL11.glMaterial(GL11.GL_FRONT, GL11.GL_DIFFUSE, FloatBuffer.wrap(houseFrontDiffuse));
         GL11.glMaterial(GL11.GL_FRONT, GL11.GL_AMBIENT, FloatBuffer.wrap(houseFrontDiffuse));
@@ -124,7 +124,7 @@ public class Lab4 extends GraphicsLab
         GL11.glScalef(1.0f, 0.5f, 1.0f);
         
         // how shiny are the front faces of the roof (specular exponent)
-        float roofFrontShininess = 60.0f;
+        float roofFrontShininess = 0.1f;
         // specular reflection of the front faces of the roof
         float roofFrontSpecular[] = {0.2f, 0.2f, 0.2f, 1.0f};
         // diffuse reflection of the front faces of the roof

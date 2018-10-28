@@ -20,7 +20,7 @@ public class Colour
 	public static final Colour BLACK = new Colour(0.0f,0.0f,0.0f);
 	public static final Colour WHITE = new Colour(1.0f,1.0f,1.0f);
 	
-	//public static final Colour ORANGE = new Colour(238,154,0);
+	public static final Colour ORANGE = new Colour(238,154,0);
 	
 	/**
 	 * Constructs a Colour object from its RGB components with a float in the range 0-1.

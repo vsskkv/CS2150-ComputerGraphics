@@ -43,7 +43,9 @@ public class Lab3 extends GraphicsLab
     {
         // build the unit cube display list for later use
         GL11.glNewList(cubeList,GL11.GL_COMPILE);
-        {   drawUnitCube(Colour.RED,Colour.RED,Colour.RED,Colour.RED,Colour.GREEN,Colour.GREEN);
+        {   
+        	drawUnitCube(Colour.RED,Colour.RED,Colour.RED,Colour.RED,Colour.GREEN,Colour.GREEN);
+        	drawUnitRoof(Colour.BLUE);
         }
         GL11.glEndList();
     }
@@ -58,8 +60,10 @@ public class Lab3 extends GraphicsLab
         // position the house
         GL11.glTranslatef(0.0f, -0.5f, -5.0f);
         // rotate the house a little so that we can see more of it
-        GL11.glRotatef(35.0f, 0.0f, 1.0f, 0.0f);
+        GL11.glRotatef(35.0f, 0.0f, 1.0f, 0.0f);       
+
         
+         GL11.glScaled(1.5, 1.5, 1.5);
         // draw the base of the house by calling the appropriate display list
         GL11.glCallList(cubeList);
     }
@@ -160,5 +164,71 @@ public class Lab3 extends GraphicsLab
             v5.submit();
         }
         GL11.glEnd();
+    }
+    private void drawUnitRoof(Colour near) {
+    	
+    	Vertex v1 = new Vertex(-0.5f, 0.5f, -0.5f);
+		Vertex v2 = new Vertex(-0.5f, 0.5f, 0.5f);
+		Vertex v3 = new Vertex(0.5f, 0.5f, -0.5f);
+		Vertex v4 = new Vertex(0.5f, 0.5f, 0.5f);
+		Vertex v5 = new Vertex(-0.5f, 1.5f, 0.0f);
+		Vertex v6 = new Vertex(0.55f, 1.5f, 0.0f);
+		
+		//bottom face
+		GL11.glBegin(GL11.GL_POLYGON);
+		{
+			near.submit();
+			
+			v1.submit();
+			v2.submit();
+			v4.submit();
+			v3.submit();
+		}
+		GL11.glEnd();
+		
+		//first Left triangle
+		GL11.glBegin(GL11.GL_POLYGON);
+		{
+			near.submit();
+			v1.submit();
+			v2.submit();
+			v5.submit();
+
+		}
+		GL11.glEnd();
+		
+		//first right triangle
+		GL11.glBegin(GL11.GL_POLYGON);
+		{
+			near.submit();
+			v3.submit();
+			v4.submit();
+			v6.submit();
+
+		}
+		GL11.glEnd();
+		
+		// top right pannel
+		GL11.glBegin(GL11.GL_POLYGON);
+		{
+			near.submit();
+			v2.submit();
+			v4.submit();
+			v6.submit();
+			v5.submit();
+
+		}
+		GL11.glEnd();
+		
+		//first Left triangle
+		GL11.glBegin(GL11.GL_POLYGON);
+		{
+			near.submit();
+			v1.submit();
+			v3.submit();
+			v6.submit();
+			v5.submit();
+		}
+		GL11.glEnd();
     }
 }

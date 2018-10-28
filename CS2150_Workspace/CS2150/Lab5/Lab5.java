@@ -46,8 +46,10 @@ public class Lab5 extends GraphicsLab
     private final int roofList  = 2;
     /** display list id for the unit plane */
     private final int planeList = 3;
+    
     /** ids for nearest, linear and mipmapped textures for the ground plane */
     private Texture groundTextures;
+    private Texture skyTexture;
     
     public static void main(String args[])
     {   new Lab5().run(WINDOWED,"Lab 5 - Quadrics & Textures",0.01f);
@@ -57,6 +59,7 @@ public class Lab5 extends GraphicsLab
     {
         // load the textures
         groundTextures = loadTexture("Lab5/textures/grass.bmp");
+        skyTexture = loadTexture("Lab5/textures/nightSky.bmp");
         
         // global ambient light level
         float globalAmbient[]   = {0.2f,  0.2f,  0.2f, 1.0f};
@@ -131,16 +134,33 @@ public class Lab5 extends GraphicsLab
         }
         GL11.glPopMatrix();
         
-        // draw the back plane
+        //draw the sky
         GL11.glPushMatrix();
         {
+        	 // disable lighting calculations so that they don't affect
+            // the appearance of the texture 
+            GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
+            GL11.glDisable(GL11.GL_LIGHTING);
+            // change the geometry colour to white so that the texture
+            // is bright and details can be seen clearly
+            Colour.WHITE.submit();
+            // enable texturing and bind an appropriate texture
+            GL11.glEnable(GL11.GL_TEXTURE_2D);
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D,skyTexture.getTextureID());
+            
+            // position, scale and draw the ground plane using its display list
             // position, scale and draw the back plane using its display list
             GL11.glTranslatef(0.0f,4.0f,-20.0f);
             GL11.glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
             GL11.glScaled(25.0f, 1.0f, 10.0f);
             GL11.glCallList(planeList);
+
+            // disable textures and reset any local lighting changes
+            GL11.glDisable(GL11.GL_TEXTURE_2D);
+            GL11.glPopAttrib();
         }
         GL11.glPopMatrix();
+        
         
         // draw the sun
         GL11.glPushMatrix();
@@ -150,16 +170,17 @@ public class Lab5 extends GraphicsLab
             // specular reflection of the front faces of the sun
             float sunFrontSpecular[] = {0.1f, 0.1f, 0.0f, 1.0f};
             // diffuse reflection of the front faces of the sun
-            float sunFrontDiffuse[]  = {1.0f, 1.0f, 0.0f, 1.0f};
+            float sunFrontDiffuse[]  = {1.0f, 1.0f, 1.0f, 1.0f};
             
             // set the material properties for the sun using OpenGL
             GL11.glMaterialf(GL11.GL_FRONT, GL11.GL_SHININESS, sunFrontShininess);
             GL11.glMaterial(GL11.GL_FRONT, GL11.GL_SPECULAR, FloatBuffer.wrap(sunFrontSpecular));
             GL11.glMaterial(GL11.GL_FRONT, GL11.GL_DIFFUSE, FloatBuffer.wrap(sunFrontDiffuse));
+            GL11.glMaterial(GL11.GL_FRONT, GL11.GL_EMISSION, FloatBuffer.wrap(sunFrontSpecular));
 
             // position and draw the sun using a sphere quadric object
             GL11.glTranslatef(4.0f, 7.0f, -19.0f);
-            new Sphere().draw(0.5f,10,10);
+            new Sphere().draw(0.6f,10,10);
         }
         GL11.glPopMatrix();
         
