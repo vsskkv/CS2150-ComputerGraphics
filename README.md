@@ -17,3 +17,18 @@ A float of the line width
 **GL11.glPointSize**
 1 @param
 A float of the point size 4619
+
+
+|R |  G | B  | result|
+|----------------------|
+|1.0 0.0 0.0 | red|
+|0.0 1.0 0.0 | green|
+|0.0 0.0 1.0 | blue|
+|1.0 1.0 0.0 | yellow|
+|1.0 0.0 1.0 | purple|
+|0.0 1.0 1.0 | cyan|
+|1.0 1.0 1.0 | white| 
+|1.0 0.5 0.0 | orange|
+|0.5 1.0 0.0 | greenish yellow|
+|0.5 1.0 0.5 | light green|
+|0.0 0.5 0.0 | dark green|
