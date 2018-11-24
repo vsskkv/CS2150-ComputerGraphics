@@ -207,7 +207,7 @@ public class CS2150Coursework extends GraphicsLab
         }
         GL11.glPopMatrix();
         
-        // draw the moon
+        // draw the planet
         GL11.glPushMatrix();
         {
             // how shiny are the front faces of the moon (specular exponent)
