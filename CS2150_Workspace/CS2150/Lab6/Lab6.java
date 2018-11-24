@@ -73,12 +73,12 @@ public class Lab6 extends GraphicsLab
     /** ids for nearest, linear and mipmapped textures for the ground plane */
     private Texture groundTextures;
     /** ids for nearest, linear and mipmapped textures for the daytime back (sky) plane */
-    //private Texture skyDayTextures;
+    private Texture skyDayTextures;
     /** ids for nearest, linear and mipmapped textures for the night time back (sky) plane */
     private Texture skyNightTextures;
 
     public static void main(String args[])
-    {   new Lab6().run(WINDOWED,"Lab 6 - Animation",0.01f);
+    {   new Lab6().run(WINDOWED,"Lab 6 - Animation",1.0f);
     }
 
     protected void initScene() throws Exception
@@ -131,13 +131,62 @@ public class Lab6 extends GraphicsLab
         }
         GL11.glEndList();
     }
+    
+    protected void turnOffMoonLight() {
+        // global ambient light level
+        float globalAmbient[]   = {0.1f,  0.1f,  0.1f, 0.3f};
+        // set the global ambient lighting
+        GL11.glLightModel(GL11.GL_LIGHT_MODEL_AMBIENT,FloatBuffer.wrap(globalAmbient));
+
+        // the first light for the scene is soft blue...
+        float diffuse0[]  = { 0.0f,  0.0f, 0.0f, 0.0f};
+        // ...with a very dim ambient contribution...
+        float ambient0[]  = { 0.00f,  0.00f, 0.0f, 0.0f};
+        // ...and is positioned above the viewpoint
+        float position0[] = { 0.0f, 10.0f, 0.0f, 0.0f};
+
+        // supply OpenGL with the properties for the first light
+        GL11.glLight(GL11.GL_LIGHT0, GL11.GL_AMBIENT, FloatBuffer.wrap(ambient0));
+        GL11.glLight(GL11.GL_LIGHT0, GL11.GL_DIFFUSE, FloatBuffer.wrap(diffuse0));
+        GL11.glLight(GL11.GL_LIGHT0, GL11.GL_SPECULAR, FloatBuffer.wrap(diffuse0));
+        GL11.glLight(GL11.GL_LIGHT0, GL11.GL_POSITION, FloatBuffer.wrap(position0));
+    
+    }
+    
+    protected void tunOnSun() {
+        // global ambient light level
+        float globalAmbient[]   = {1.0f,  0.8f,  0.8f, 0.6f};
+        // set the global ambient lighting
+        GL11.glLightModel(GL11.GL_LIGHT_MODEL_AMBIENT,FloatBuffer.wrap(globalAmbient));
+
+        // the first light for the scene is soft blue...
+        float diffuse0[]  = { 1.0f,  1.0f, 1.0f, 1.0f};
+        // ...with a very dim ambient contribution...
+        float ambient0[]  = { 1.00f,  1.00f, 1.0f, 1.0f};
+        // ...and is positioned above the viewpoint
+        float position0[] = { 1.0f, 1.0f, 1.0f, 1.0f};
+
+        // supply OpenGL with the properties for the first light
+        GL11.glLight(GL11.GL_LIGHT0, GL11.GL_AMBIENT, FloatBuffer.wrap(ambient0));
+        GL11.glLight(GL11.GL_LIGHT0, GL11.GL_DIFFUSE, FloatBuffer.wrap(diffuse0));
+        GL11.glLight(GL11.GL_LIGHT0, GL11.GL_SPECULAR, FloatBuffer.wrap(diffuse0));
+        GL11.glLight(GL11.GL_LIGHT0, GL11.GL_POSITION, FloatBuffer.wrap(position0));
+    }
+    
     protected void checkSceneInput()
     {
         if(Keyboard.isKeyDown(Keyboard.KEY_R))
         {   risingSunMoon = true;
         }
         else if(Keyboard.isKeyDown(Keyboard.KEY_L))
-        {   risingSunMoon = false;
+        {   
+        	risingSunMoon = false;
+        	turnOffMoonLight();
+        }
+        else if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
+        	if(risingSunMoon == false) {
+        		tunOnSun();
+        	}
         }
         else if(Keyboard.isKeyDown(Keyboard.KEY_SPACE))
         {   resetAnimations();
@@ -218,6 +267,27 @@ public class Lab6 extends GraphicsLab
             float moonFrontSpecular[] = {0.6f, 0.6f, 0.6f, 1.0f};
             // diffuse reflection of the front faces of the moon
             float moonFrontDiffuse[]  = {0.6f, 0.6f, 0.6f, 1.0f};
+
+            // set the material properties for the sun using OpenGL
+            GL11.glMaterialf(GL11.GL_FRONT, GL11.GL_SHININESS, moonFrontShininess);
+            GL11.glMaterial(GL11.GL_FRONT, GL11.GL_SPECULAR, FloatBuffer.wrap(moonFrontSpecular));
+            GL11.glMaterial(GL11.GL_FRONT, GL11.GL_DIFFUSE, FloatBuffer.wrap(moonFrontDiffuse));
+
+            // position and draw the moon using a sphere quadric object
+            GL11.glTranslatef(4.0f, currentSunMoonY, -19.0f);
+            new Sphere().draw(0.5f,10,10);
+        }
+        GL11.glPopMatrix();
+        
+        // draw the Sun
+        GL11.glPushMatrix();
+        {
+            // how shiny are the front faces of the moon (specular exponent)
+            float moonFrontShininess  = 2.0f;
+            // specular reflection of the front faces of the moon
+            float moonFrontSpecular[] = {1.0f, 1.0f, 1.0f, 1.0f};
+            // diffuse reflection of the front faces of the moon
+            float moonFrontDiffuse[]  = {1.0f, 1.0f, 1.0f, 1.0f};
 
             // set the material properties for the sun using OpenGL
             GL11.glMaterialf(GL11.GL_FRONT, GL11.GL_SHININESS, moonFrontShininess);

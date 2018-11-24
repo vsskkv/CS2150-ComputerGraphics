@@ -33,12 +33,15 @@ import GraphicsLab.*;
  */
 public class Lab2 extends GraphicsLab
 {	
+	//public static final Colour ORANGE = new Colour(238,154,0);
+	
     public static void main(String args[])
     {   new Lab2().run(WINDOWED,"Lab 2 - Appearance",0.01f);
     }
 
     protected void initScene()
-    {// empty
+    {
+    	
     }
     protected void checkSceneInput()
     {// empty
@@ -51,24 +54,29 @@ public class Lab2 extends GraphicsLab
         // position and draw the first cube
         GL11.glPushMatrix();
         {
+        	GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
 	        GL11.glTranslatef(0.0f, -1.0f, -6.0f);
-	        drawUnitCube(Colour.BLUE,Colour.CYAN,Colour.RED,Colour.RED,Colour.GREEN,Colour.GREEN);
+	        drawUnitCube(Colour.GREEN,Colour.CYAN,Colour.RED,Colour.RED,Colour.GREEN,Colour.GREEN);
         }
         GL11.glPopMatrix();
 
         // position and draw the second cube
         GL11.glPushMatrix();
         {
+        	GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
 	        GL11.glTranslatef(0.0f, 0.0f, -6.0f);
-	        drawUnitCube(Colour.BLUE,Colour.CYAN,Colour.RED,Colour.RED,Colour.GREEN,Colour.GREEN);
+	        drawUnitCube(Colour.ORANGE,Colour.CYAN,Colour.RED,Colour.RED,Colour.GREEN,Colour.GREEN);
         }
         GL11.glPopMatrix();
         
         // position and draw the third cube
         GL11.glPushMatrix();
-        {
+        {		   
+        	GL11.glDisable(GL11.GL_CULL_FACE);
+		    GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
 	        GL11.glTranslatef(0.0f, 1.0f, -6.0f);
-	        drawUnitCube(Colour.BLUE,Colour.CYAN,Colour.RED,Colour.RED,Colour.GREEN,Colour.GREEN);
+	        drawUnitCube(Colour.RED,Colour.CYAN,Colour.RED,Colour.RED,Colour.GREEN,Colour.GREEN);
+
         }
         GL11.glPopMatrix();
     }
@@ -102,10 +110,12 @@ public class Lab2 extends GraphicsLab
         GL11.glBegin(GL11.GL_POLYGON);
         {
             near.submit();
-            
             v3.submit();
+            left.submit();
             v2.submit();
+            right.submit();
             v1.submit();
+            bottom.submit();
             v4.submit();
         }
         GL11.glEnd();
